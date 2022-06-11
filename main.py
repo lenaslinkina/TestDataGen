@@ -1,10 +1,7 @@
-import numpy
 import random
-import string
 import psycopg2
 from config import host, db_name, password, user
-from datetime import datetime, timedelta
-from variables import lett, lettEnd, letters, single_random_choice, rand_string
+from variables import lett, lettEnd, letters, start, end
 
 try:
     connection = psycopg2.connect(
@@ -29,43 +26,28 @@ try:
  );
             """
         )
-    #     print("[INFO] Table created successfully")
-
-
-
-
-#Заполнение дат
-    min_year=1990
-    max_year=datetime.now().year
-
-    start = datetime(min_year, 1, 1, 00, 00, 00)
-    years = max_year - min_year + 1
-    end = start + timedelta(days=365 * years)
-
-
-
-#Запрос должен вкелючить все строки
-
+        print("[INFO] Table created successfully")
+#Заполняем запрос, все в одну таблицу
     codeArr = ["" for x in range(20)]
     for i in range(0, 19):
         lenghtCode = random.randint(5, 20)
         code = "GGA_" + ''.join(random.choice(letters) for i in range(lenghtCode))
         codeArr[i] = "GGA_" + code
-        fieldCount = random.randint(10, 40)
+        fieldCount = random.randint(10, 50)
         tipdan="none"
         for l in range(0, fieldCount):
             lenghtCode = random.randint(5, 13)
             field = ''.join(random.choice(lett) for i in range(lenghtCode)) + random.choice(lettEnd)
-            countWell = random.randint(10, 500)
+            countWell = random.randint(10, 200)
             for j in range(0, countWell):
                 lenghtCode = random.randint(1, 4)
                 well = (str(random.randint(1, 99)) + ''.join(random.choice(letters) for i in range(lenghtCode)))
-                wellCount = random.randint(3, 300)
-                for k in range(0, wellCount):
+                countDate = random.randint(3, 20)
+                for k in range(0, countDate):
                     lenghtCode = random.randint(1, 4)
-                    path = "C:/Users/lena/Documents/"+str(''.join(random.choice(letters) for i in range(5))) + "\\" +  ''.join(random.choice(letters) for i in range(5))
-                    countDate = random.randint(1, 2)
-                    for u in range(0, countDate):
+                    path = "C:/Users/lena/Documents/"+str(''.join(random.choice(letters) for i in range(5))) + "/" +  ''.join(random.choice(letters) for i in range(5))
+                    countPath = random.randint(1, 2)
+                    for u in range(0, countPath):
                         random_date = start + (end - start) * random.random()
                         with connection.cursor() as cursor:
                             cursor.execute(
@@ -75,7 +57,6 @@ try:
 finally:
     if connection:
         connection.close()
-        print(f"Insert into test (Code, Field, TypeData, Well, PathFile, Dates) VALUES ('{code}', '{field}', '{tipdan}', '{well}', '{path}', {random_date});")
         print("[INFO] PostgreSQL connection closed")
 
 
