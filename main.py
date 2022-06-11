@@ -15,7 +15,7 @@ try:
     with connection.cursor() as cursor:
         cursor.execute(
             """
-            CREATE Table test(
+            CREATE Table gga_index(
             id serial PRIMARY KEY,
             Code varchar(50) NOT NULL,
             Field varchar(50) NOT NULL,
@@ -51,7 +51,7 @@ try:
                         random_date = start + (end - start) * random.random()
                         with connection.cursor() as cursor:
                             cursor.execute(
-                            f"""Insert into test (Code, Field, TypeData, Well, PathFile, Dates) VALUES
+                            f"""Insert into gga_index (Code, Field, TypeData, Well, PathFile, Dates) VALUES
                             ('{code}', '{field}', '{tipdan}', '{well}', '{path}', '{random_date}');"""
                             )
 finally:
