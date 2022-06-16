@@ -22,21 +22,7 @@ try:
     else:
 
         functions.create_table(connection)
-    # Предусмотреть пересоздание таблицы если такая уже есть или создание ещё одной с именем gga_index_{N+1}
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """
-            CREATE Table gga_index(
-            id serial PRIMARY KEY,
-            Code varchar(50) NOT NULL,
-            Field varchar(50) NOT NULL,
-            TypeData varchar(50) NOT NULL,
-            Well varchar(50) NOT NULL,
-            PathFile varchar(200) NOT NULL,
-            Dates date NOT NULL
- );
-            """
-        )
+
         print("[INFO] Table created successfully")
 
     # Заполняем запрос, все в одну таблицу
