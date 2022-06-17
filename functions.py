@@ -1,4 +1,7 @@
 import psycopg2
+from bs4 import BeautifulSoup
+import random
+import lxml
 def table_exists(connection):
     exists = False
     try:
@@ -41,4 +44,22 @@ def drop_table(connection):
         print(e)
 
 
+def field():
+    with open("field.html", encoding='utf-8') as f:
+        contents = f.read()
+        soup = BeautifulSoup(contents, 'lxml')
+        elements = soup.findAll("td", {'class': 'column-1'})
+        return  elements
+        # print(elements[3].get_text())
+        # for element in elements:
+        #     print(element.get_text())
 
+
+def type():
+    with open("type.txt") as f:
+        content = f.readlines()
+    # you may also want to remove whitespace characters like `\n` at the end of each line
+    i = random.randint(0, len(content)-1)
+    #  content = [x.strip() for x in content]
+    type = content[i]
+# print(content)
