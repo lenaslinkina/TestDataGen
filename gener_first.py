@@ -1,5 +1,7 @@
 
 import random
+
+
 import psycopg2
 import functions
 from variables import lett, start, end, codes
