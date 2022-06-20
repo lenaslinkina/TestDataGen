@@ -16,7 +16,7 @@ def general_first(connection):
             code ="GGA_" + ''.join(random.choice(codes) for i in range(1))
            # for l in range(0, len(fields)):
             # пока пусть 100 остается
-            for f in range(0, 2):
+            for f in range(0, len(fields)-1):
                 field = fields[f].get_text()
                 countWell = random.randint(10, 20)
                 for w in range(0, countWell):

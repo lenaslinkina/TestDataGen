@@ -2,8 +2,8 @@ import random
 import psycopg2
 import psycopg2.extras
 import time_memory
-from typing import Iterator, Dict, Any
-
+from typing import Iterator, Dict, Any, Optional
+import io
 
 
 @time_memory.profile
@@ -155,3 +155,86 @@ def insert_execute_values(connection, records: Iterator[Dict[str, Any]], page_si
                 )for record in records ),page_size=page_size);
     except psycopg2.Error as e:
         print(e)
+
+
+def clean_csv_value(value: Optional[Any]) -> str:
+    if value is None:
+        return r'\N'
+    return str(value).replace('\n', '\\n')
+
+
+@time_memory.profile
+def copy_stringio(connection, records: Iterator[Dict[str, Any]]) -> None:
+    with connection.cursor() as cursor:
+
+        csv_file_like_object = io.StringIO()
+        for record in records:
+
+            csv_file_like_object.write('|'.join(map(clean_csv_value, (
+
+                record['Code'],
+                record['Field'],
+                record['Type'],
+                record['Well'],
+                record['Path'],
+                record['Dates'],
+            ))) + '\n')
+
+        csv_file_like_object.seek(0)
+        cursor.copy_from(csv_file_like_object, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'pathfile', 'well', 'dates'))
+
+
+class StringIteratorIO(io.TextIOBase):
+
+    def __init__(self, iter: Iterator[str]):
+        self._iter = iter
+        self._buff = ''
+
+    def readable(self) -> bool:
+        return True
+
+    def _read1(self, n: Optional[int] = None) -> str:
+        while not self._buff:
+            try:
+                self._buff = next(self._iter)
+            except StopIteration:
+                break
+        ret = self._buff[:n]
+        self._buff = self._buff[len(ret):]
+        return ret
+
+    def read(self, n: Optional[int] = None) -> str:
+        line = []
+        if n is None or n < 0:
+            while True:
+                m = self._read1()
+                if not m:
+                    break
+                line.append(m)
+        else:
+            while n > 0:
+                m = self._read1(n)
+                if not m:
+                    break
+                n -= len(m)
+                line.append(m)
+        return ''.join(line)
+
+
+@time_memory.profile
+def copy_string_iterator(connection, records: Iterator[Dict[str, Any]], size: int = 8192) -> None:
+    with connection.cursor() as cursor:
+
+        records_string_iterator = StringIteratorIO((
+            '|'.join(map(clean_csv_value, (
+                record['Code'],
+                record['Field'],
+                record['Type'],
+                record['Well'],
+                record['Path'],
+                record['Dates'],
+            ))) + '\n'
+            for record in records
+        ))
+
+        cursor.copy_from(records_string_iterator, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'pathfile', 'well', 'dates'), size=size)
