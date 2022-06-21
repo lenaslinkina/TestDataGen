@@ -21,7 +21,6 @@ def ingeneral_first(connection, alls: Iterator[Dict[str, Any]])-> None:
                         %(Dates)s
                     );
                 """, {**all})
-
     except psycopg2.Error as e:
         print(e)
 
@@ -53,6 +52,7 @@ def insert_executemany(connection, records: Iterator[Dict[str, Any]]) -> None:
 
             all_records = [{ **record} for record in records]
 
+
             cursor.executemany("""
                  Insert into gga_index (Code, Field, TypeData, Well, PathFile, Dates) VALUES (
                             %(Code)s,
@@ -63,6 +63,7 @@ def insert_executemany(connection, records: Iterator[Dict[str, Any]]) -> None:
                             %(Dates)s
                 );
             """, all_records)
+
     except psycopg2.Error as e:
         print(e)
 
@@ -181,7 +182,7 @@ def copy_stringio(connection, records: Iterator[Dict[str, Any]]) -> None:
             ))) + '\n')
 
         csv_file_like_object.seek(0)
-        cursor.copy_from(csv_file_like_object, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'pathfile', 'well', 'dates'))
+        cursor.copy_from(csv_file_like_object, 'gga_index', sep='|', columns=('code', 'field', 'typedata',  'well','pathfile', 'dates'))
 
 
 class StringIteratorIO(io.TextIOBase):
@@ -237,4 +238,7 @@ def copy_string_iterator(connection, records: Iterator[Dict[str, Any]], size: in
             for record in records
         ))
 
-        cursor.copy_from(records_string_iterator, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'pathfile', 'well', 'dates'), size=size)
+
+        cursor.copy_from(records_string_iterator, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'well', 'pathfile',  'dates'), size=size)
+
+
