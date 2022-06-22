@@ -1,5 +1,6 @@
+import os
 host = "localhost"
 user = "postgres"
-password = "1234"
+password = os.environ['PASSWORD_DB']
 db_name = "testdata"
 port = 5432
