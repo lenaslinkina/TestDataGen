@@ -1,4 +1,6 @@
 import random
+from datetime import time, datetime
+
 import psycopg2
 import psycopg2.extras
 import time_memory
@@ -224,6 +226,7 @@ class StringIteratorIO(io.TextIOBase):
 
 @time_memory.profile
 def copy_string_iterator(connection, records: Iterator[Dict[str, Any]], size: int = 8192) -> None:
+
     with connection.cursor() as cursor:
 
         records_string_iterator = StringIteratorIO((
@@ -237,6 +240,8 @@ def copy_string_iterator(connection, records: Iterator[Dict[str, Any]], size: in
             ))) + '\n'
             for record in records
         ))
+
+
 
 
         cursor.copy_from(records_string_iterator, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'well', 'pathfile',  'dates'), size=size)
