@@ -240,10 +240,6 @@ def copy_string_iterator(connection, records: Iterator[Dict[str, Any]], size: in
             ))) + '\n'
             for record in records
         ))
-
-
-
-
         cursor.copy_from(records_string_iterator, 'gga_index', sep='|', columns=('code', 'field', 'typedata', 'well', 'pathfile',  'dates'), size=size)
 
 
