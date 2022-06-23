@@ -130,7 +130,7 @@ if __name__ == '__main__':
             # copy_string_iterator()# Time# 25.72 # Memory # 0.0 - лучший
 
 
-        print(len(list(gen_records.records_cr(fields))))
+        #print(len(list(gen_records.records_cr(fields, connection))))
         print("End insert")
 
     finally:
