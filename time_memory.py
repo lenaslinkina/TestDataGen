@@ -14,7 +14,7 @@ def profile(fn):
         t = time.perf_counter()
         retval = fn(*args, **kwargs)
         elapsed = time.perf_counter() - t
-        print(f'Time   {elapsed:0.4}')
+        print(f'Записи вставлены за   {elapsed:0.4}')
 
         # Measure memory
        # mem, retval = memory_usage((fn, args, kwargs), retval=True, timeout=200, interval=1e-7)

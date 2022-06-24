@@ -13,6 +13,7 @@ def records_cr(fields, connection):
         countWell = random.randint(3, 999)
         print("Сгенерировано записей: "+ str(len(ranges)))
         if (len(ranges)>1500000):
+            print("Вставка записей в базу")
             genfuns.copy_string_iterator(connection, ranges, 100000)
             recordscount(connection)
             ranges.clear()
