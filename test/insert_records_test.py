@@ -1,6 +1,3 @@
-import random
-from datetime import time, datetime
-
 import psycopg2
 import psycopg2.extras
 import time_memory
