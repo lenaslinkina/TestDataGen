@@ -1,6 +1,6 @@
 import random
 
-#
+
 def get_fields():
     with open("data/field.txt", encoding='utf-8') as f:
         content = f.readlines()
