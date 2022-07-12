@@ -1,6 +1,6 @@
 from generator import records_generator
 from db import db_queries
-
+#
 if __name__ == '__main__':
     try:
         connection = db_queries.db_connection()

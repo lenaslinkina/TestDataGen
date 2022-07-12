@@ -22,7 +22,7 @@ def create_table(connection):
                 DROP TABLE IF EXISTS gga_index;
                 CREATE Table gga_index(
                 id serial PRIMARY KEY,
-                Code TEXT,
+                GGACode TEXT,
                 Field TEXT,
                 TypeData TEXT,
                 Well TEXT,
