@@ -1,3 +1,5 @@
 # TestDataGen
- Генератор тестовых данных TestDataGen. Создает псевдослучайные геолого-геофизические данные и сохраняет их в таблицу gga_index базы данных PostgreSQL.
- В папке test тестовые методы вставки данных. В main запускается самый быстрый метод вставки.
+ 
+Test data generator TestDataGen.
+Creates  pseudo-random geological/geophysical data and stores  it in the gga_index table of PostgreSQL database.
+"Test" folder contains tesing methods of data inserting. In "Main" starts fastest instert method 
