@@ -9,8 +9,6 @@ def get_fields():
 
     return content
 
-#
-
 
 def get_types():
     with open("data/type.txt") as f:

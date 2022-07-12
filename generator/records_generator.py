@@ -4,7 +4,7 @@ from data import get_data
 from typing import Optional, Iterator, Any, Dict
 from data.variables import lett, start, end, codes
 
-#
+
 def clean_csv_value(value: Optional[Any]) -> str:
     if value is None:
         return r'\N'
