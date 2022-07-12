@@ -4,7 +4,7 @@ import time_memory
 from typing import Iterator, Dict, Any, Optional
 import io
 
-
+#
 @time_memory.profile
 def ingeneral_first(connection, alls: Iterator[Dict[str, Any]])-> None:
     try:

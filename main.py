@@ -8,3 +8,4 @@ if __name__ == '__main__':
         records_generator.create_insert_records(connection)
     finally:
         db_queries.connection_close(connection)
+#
